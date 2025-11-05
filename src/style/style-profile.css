@@ -65,7 +65,7 @@ table{
     border: 2px solid black;
     border-style:groove;
     border-color: black;
-
+    margin-bottom: 30px;
 }
 tr{
     height: 5vh;

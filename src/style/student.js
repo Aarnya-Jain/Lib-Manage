@@ -12,7 +12,7 @@ let profilebtn = document.querySelector("#myprofile");
 profilebtn.addEventListener("click",(event)=>{
     event.preventDefault();
 
-    window.location.href="profile.html";
+    window.location.href="student_profile.html";
 })
 
 // searching by column
@@ -32,11 +32,12 @@ searchbtn.addEventListener("click", async (event) => {
     const res = await fetch(`/books/search?column=${column}&value=${encodeURIComponent(value)}`);
     const data = await res.json();
 
+
     if (!Array.isArray(data)) {
     console.error("Expected array, got:", data);
     return; // stop here if data is not an array
     }
-    
+
     const container = document.getElementById("booktable");
     container.innerHTML = `
         <tr>

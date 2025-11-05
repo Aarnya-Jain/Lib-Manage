@@ -7,8 +7,6 @@ app.use(express.static("../style"));
 
 app.use("/public", express.static("../../public"));
 
-
-// 1. Create MySQL connection pool
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -19,13 +17,7 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// 2. Test route
-app.get("/", async (req, res) => {
-  const [rows] = await pool.query("SELECT NOW() AS time;");
-  res.json({ status: "Server running", time: rows[0].time });
-});
-
-// 3. Example API route (insert)
+// Example API route (insert)
 app.post("/books", async (req, res) => {
   const { name, age } = req.body;
   const [result] = await pool.query(
@@ -145,6 +137,36 @@ app.get("/issue", async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
+
+// route to fetch all student data
+app.get("/info/student", async (req, res) => {
+
+  const { student_enroll } = req.query;
+
+  try {
+        const [rows] = await pool.query(`SELECT * FROM student WHERE enrollment_no = ${student_enroll}`);
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+// route to fetch all student issue history data
+app.get("/info/student/issue_history", async (req, res) => {
+
+  const { student_enroll } = req.query;
+
+  // vansh will write this query
+  try {
+        const [rows] = await pool.query(`SELECT 1`);
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
 
 
 app.listen(3001, () => console.log("Server running on http://localhost:3001"));
