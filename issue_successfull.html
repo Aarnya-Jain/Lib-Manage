@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success Animation</title>
+    <!-- Using the Inter font for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* * Basic page setup to center the animation 
+         */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* * The modal/card container
+         * This animates in by scaling up.
+         */
+        .success-card {
+            background-color: white;
+            padding: 3rem 4rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            /* Animation: Call the 'scaleUp' keyframes */
+            animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* * The SVG wrapper.
+         * We define the size of our animation canvas here.
+         */
+        .checkmark-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* * The core SVG styling.
+         * 'fill: none' is crucial so we only see the 'stroke' (the line).
+         * 'stroke-linecap' and 'stroke-linejoin' make the line ends soft and round.
+         */
+        .success-checkmark {
+            stroke-width: 5;
+            stroke: #4CAF50; /* A positive green color */
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* * HOW IT WORKS (The "Drawing" Magic):
+         * 1. 'stroke-dasharray' defines the pattern of the line. We set it to the
+         * total length of the circle's path. This makes the "dash" one single
+         * long dash that covers the whole shape.
+         * 2. 'stroke-dashoffset' is how far *into* that dash pattern the line starts.
+         * By setting it to the *same value* as the dasharray (151), we
+         * effectively "hide" the entire line, as if it's drawn but offset
+         * completely off-screen.
+         *
+         * The animation will move 'stroke-dashoffset' from 151 (hidden) to 0 (fully visible).
+         */
+
+        /* 1. The Circle */
+        .check-circle {
+            /* Circumference of the circle (2 * pi * radius) */
+            stroke-dasharray: 151;
+            stroke-dashoffset: 151;
+            /* Animation: Call 'draw-circle' keyframes */
+            animation: draw-circle 0.7s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        /* 2. The Checkmark (Tick) */
+        .check-icon {
+            /* Total length of the checkmark path */
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            /* * Animation: Call 'draw-check' keyframes.
+             * Crucially, we add an 'animation-delay' so it only
+             * starts drawing AFTER the circle is nearly complete.
+             */
+            animation: draw-check 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+        }
+
+        /* The text styling */
+        .success-title {
+            color: #333;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .success-message {
+            color: #555;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* * KEYFRAMES - The heart of the animation
+         */
+        
+        /* 1. Keyframes for the card scaling in */
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* 2. Keyframes for drawing the circle */
+        @keyframes draw-circle {
+            /* Animate the 'stroke-dashoffset' from 151 (hidden) to 0 (visible) */
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* 3. Keyframes for drawing the checkmark */
+        @keyframes draw-check {
+            /* Animate the 'stroke-dashoffset' from 48 (hidden) to 0 (visible) */
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="checkmark-wrapper">
+            <!-- 
+              This SVG contains the two shapes we animate:
+              1. A <circle>
+              2. A <polyline> (which is the checkmark)
+            -->
+            <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <!-- The circle path, radius 24, centered at 26,26 -->
+                <circle class="check-circle" cx="26" cy="26" r="24" />
+                <!-- The checkmark path (a polyline with 3 points) -->
+                <polyline class="check-icon" points="14,27 22,35 38,19" />
+            </svg>
+        </div>
+
+        <h1 class="success-title">Book Issue Successful</h1>
+        <!-- UPDATED: Replaced the old message with your new one and an ID for the script -->
+        <p class="success-message">Return Date: <span id="return-date"></span></p>
+    </div>
+
+    <!-- ADDED: Script to calculate and display the date -->
+    <script>
+        // Wait for the document to be loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            // Get the current date
+            const today = new Date();
+            
+            // Calculate the date 15 days from now
+            const returnDate = new Date();
+            returnDate.setDate(today.getDate() + 15);
+
+            // Format the date (e.g., "October 7, 2025")
+            // Using toLocaleDateString for a nice, human-readable format
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = returnDate.toLocaleDateString('en-US', options);
+
+            // Find the span and set its text
+            const dateElement = document.getElementById("return-date");
+            if (dateElement) {
+                dateElement.textContent = formattedDate;
+            }
+        });
+    </script>
+
+</body>
+</html>
+

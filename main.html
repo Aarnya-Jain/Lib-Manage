@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="main-heading">
+        <div class="jiit_img">
+            <img id="jiit" src="jiit_img.png">
+        </div>
+        <div id="heading1">Learning Resource Center</div>
+    </div>
+    <div class="logout">
+        <button id="myprofile" name="myprofile">My Profile</button>
+        <button name="logout" id="logout">Log out</button>
+    </div>
+    <div class="search_bar">
+        <pre>Search:</pre>
+        <div class="options">
+            
+            <select name="search_by" id="search_by">
+                <option value="" disabled selected hidden>All</option>
+                <option value="Author">Author</option>
+                <option value="Title">Title</option>
+                <option value="ISBN">ISBN</option>
+                <option value="Category">Category</option>
+            </select>
+            <input type="text" name="text" id="search" placeholder="Type here">
+            <submit class="icon">
+                <i id="searchbtn" class="fa-solid fa-magnifying-glass"></i>
+            </submit>
+        </div>
+        
+    </div>
+
+    <div class="bookinfo">
+        <table id="booktable" border="n">
+            <tr>
+    <th>Sno.</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Category</th>
+    <th>ISBN</th>
+    <th>Availability</th>
+    <th>Shelf No.</th>
+</tr>
+<tr>
+    <td id="sno">1</td>
+    <td>Alice in Wonderland</td>
+    <td>Lewis Carroll</td>
+    <td>Fiction</td>
+    <td>9780141321073</td>
+    <td>Available</td>
+    <td id="shelf">4</td>
+</tr>
+<tr>
+    <td id="sno">2</td>
+    <td>The Great Gatsby</td>
+    <td>F. Scott Fitzgerald</td>
+    <td>Classic</td>
+    <td>9780743273565</td>
+    <td>Issued</td>
+    <td id="shelf">2</td>
+</tr>
+<tr>
+    <td id="sno">3</td>
+    <td>1984</td>
+    <td>George Orwell</td>
+    <td>Dystopian</td>
+    <td>9780451524935</td>
+    <td>Available</td>
+    <td id="shelf">5</td>
+</tr>
+<tr>
+    <td id="sno">4</td>
+    <td>Pride and Prejudice</td>
+    <td>Jane Austen</td>
+    <td>Romance</td>
+    <td>9781503290563</td>
+    <td>Issued</td>
+    <td id="shelf">1</td>
+</tr>
+<tr>
+    <td id="sno">5</td>
+    <td>The Hobbit</td>
+    <td>J.R.R. Tolkien</td>
+    <td>Fantasy</td>
+    <td>9780547928227</td>
+    <td>Available</td>
+    <td id="shelf">7</td>
+</tr>
+<tr>
+    <td id="sno">6</td>
+    <td>To Kill a Mockingbird</td>
+    <td>Harper Lee</td>
+    <td>Classic</td>
+    <td>9780061120084</td>
+    <td>Available</td>
+    <td id="shelf">3</td>
+</tr>
+<tr>
+    <td id="sno">7</td>
+    <td>The Catcher in the Rye</td>
+    <td>J.D. Salinger</td>
+    <td>Classic</td>
+    <td>9780316769488</td>
+    <td>Issued</td>
+    <td id="shelf">6</td>
+</tr>
+<tr>
+    <td id="sno">8</td>
+    <td>The Da Vinci Code</td>
+    <td>Dan Brown</td>
+    <td>Thriller</td>
+    <td>9780307474278</td>
+    <td>Available</td>
+    <td id="shelf">9</td>
+</tr>
+<tr>
+    <td id="sno">9</td>
+    <td>The Alchemist</td>
+    <td>Paulo Coelho</td>
+    <td>Fable</td>
+    <td>9780061122415</td>
+    <td>Available</td>
+    <td id="shelf">8</td>
+</tr>
+<tr>
+    <td id="sno">10</td>
+    <td>The Shining</td>
+    <td>Stephen King</td>
+    <td>Horror</td>
+    <td>9780307743657</td>
+    <td>Issued</td>
+    <td id="shelf">10</td>
+</tr>
+
+        </table>
+    </div>
+    
+    
+
+</body>
+<script src="mainjs.js"></script>
+</html>
