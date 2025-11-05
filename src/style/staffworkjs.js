@@ -6,9 +6,8 @@ submit_button.addEventListener('click', async (event) => {
   event.preventDefault();
 
   let student_enroll = document.querySelector('#enr').value.trim();
-  // let staff_id = document.querySelector('#passwd').value.trim();
   let isbn = document.querySelector('#isbn').value.trim();
-  let staff_id = 101;
+  let staff_id = localStorage.getItem("curr_user");
 
   console.log("Issuing for ", student_enroll, staff_id , isbn);
 
