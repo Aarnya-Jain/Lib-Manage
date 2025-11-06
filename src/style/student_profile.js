@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log(data);
 
+            // flattening the data
+            data = data.filter(row => Array.isArray(row) && row.length > 0).map(row => row[0]);
+
             const container = document.querySelector("#issue-table");
             container.innerHTML = `
                 <tr id="first-row">
@@ -45,18 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 <th>Fine</th>
 
                 </tr>
+                ` + data.map(
+                    book =>
+                    `
+                    <tr><td id="center">${book.sno}</td><td>${book.t}</td><td>${book.a}</td><td>${book.i}</td><td>${book.c}</td><td id="center">${book.id.split("T")[0]}</td><td id="center">${book.rd ? book.rd.split("T")[0] : "-"}</td><td class="right">${book.fine || 0}</td></tr>
+                    `
+                ).join("")
 
-<tr><td id="center">1</td><td>The Silent Patient</td><td>Alex Michaelides</td><td>9781250301697</td><td>Thriller</td><td id="center">2025-08-02</td><td id="center">2025-08-16</td><td class="right">0</td></tr>
-<tr><td id="center">2</td><td>Project Hail Mary</td><td>Andy Weir</td><td>9780525559474</td><td>Science Fiction</td><td id="center">2025-09-05</td><td id="center">2025-09-19</td><td class="right">25</td></tr>
-<tr><td id="center">3</td><td>Sapiens: A Brief History of Humankind</td><td>Yuval Noah Harari</td><td>9780062316097</td><td>History</td><td id="center">2025-07-10</td><td id="center">2025-07-24</td><td class="right">0</td></tr>
-<tr><td id="center">4</td><td>Thinking, Fast and Slow</td><td>Daniel Kahneman</td><td>9780374533557</td><td>Psychology</td><td id="center">2025-06-18</td><td id="center">2025-07-02</td><td class="right">40</td></tr>
-<tr><td id="center">5</td><td>Educated</td><td>Tara Westover</td><td>9780399590504</td><td>Memoir</td><td id="center">2025-09-01</td><td id="center">2025-09-15</td><td class="right">0</td></tr>
-<tr><td id="center">6</td><td>Clean Code</td><td>Robert C. Martin</td><td>9780132350884</td><td>Programming</td><td id="center">2025-08-20</td><td id="center">2025-09-03</td><td class="right">15</td></tr>
-<tr><td id="center">7</td><td>Where the Crawdads Sing</td><td>Delia Owens</td><td>9780735219106</td><td>Fiction</td><td id="center">2025-07-28</td><td id="center">2025-08-11</td><td class="right">0</td></tr>
-<tr><td id="center">8</td><td>Atomic Habits</td><td>James Clear</td><td>9780735211292</td><td>Self-help</td><td id="center">2025-09-10</td><td id="center">2025-09-24</td><td class="right">0</td></tr>
-<tr><td id="center">9</td><td>Introduction to Algorithms</td><td>CLRS</td><td>9780262046305</td><td>Textbook</td><td id="center">2025-06-01</td><td id="center">2025-06-15</td><td class="right">200</td></tr>
-<tr><td id="center">10</td><td>The Alchemist</td><td>Paulo Coelho</td><td>9780061122415</td><td>Fable</td><td id="center">2025-08-29</td><td id="center">2025-09-12</td><td class="right">5</td></tr>
-            `;
         });
 
 });

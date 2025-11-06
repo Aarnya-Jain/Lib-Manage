@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`/info/student?student_enroll=${encodeURIComponent(student_enroll)}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             const container1 = document.querySelector(".profile");
             const img = document.createElement("img");
             img.className = "pfp";
@@ -26,7 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(data);
 
             const container = document.getElementById("booktable");
-            container.innerHTML = `
+            container.innerHTML = data.length === 0
+            ? `
+                <tr>
+                    <td colspan="6" style="
+                        text-align:center;
+                        padding:20px;
+                        font-size:20px;
+                        font-weight:600;
+                        border-radius:10px;
+                    ">No books found.</td>
+                </tr>
+              `
+            : `
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
@@ -35,18 +46,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     <th>Shelf No.</th>
                     <th>Quantity Available</th>
                 </tr>
-            ` + data.map(
-                book => `
-                <tr>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.isbn}</td>
-                    <td>${book.category}</td>
-                    <td>${book.shelf_no}</td>
-                    <td>${book.quantity}</td>
-                </tr>
-                `
-            ).join("");
+                ${data.map(book => `
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.isbn}</td>
+                        <td>${book.category}</td>
+                        <td>${book.shelf_no}</td>
+                        <td>${book.quantity}</td>
+                    </tr>
+                `).join("")}
+              `;
         });
 });
 
@@ -91,27 +101,38 @@ searchbtn.addEventListener("click", async (event) => {
     }
 
     const container = document.getElementById("booktable");
-    container.innerHTML = `
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Category</th>
-            <th>Shelf No.</th>
-            <th>Quantity Available</th>
-        </tr>
-    ` + data.map(
-        book => `
-        <tr>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.isbn}</td>
-            <td>${book.category}</td>
-            <td>${book.shelf_no}</td>
-            <td>${book.quantity}</td>
-        </tr>
-        `
-    ).join("");
+    container.innerHTML = data.length === 0
+            ? `
+                <tr>
+                    <td colspan="6" style="
+                        text-align:center;
+                        padding:20px;
+                        font-size:20px;
+                        font-weight:600;
+                        border-radius:10px;
+                    ">No books found.</td>
+                </tr>
+              `
+            : `
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Shelf No.</th>
+                    <th>Quantity Available</th>
+                </tr>
+                ${data.map(book => `
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.isbn}</td>
+                        <td>${book.category}</td>
+                        <td>${book.shelf_no}</td>
+                        <td>${book.quantity}</td>
+                    </tr>
+                `).join("")}
+              `;
 });
 
 

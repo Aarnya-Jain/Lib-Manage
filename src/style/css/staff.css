@@ -57,7 +57,7 @@ html, body{
     padding: 0 1.25rem;
 }
 
-#logout, #myprofile ,#issue,#man_st,#man_bk {
+#logout, #myprofile ,#issue,#man_st,#man_bk,#man_stf,#return {
     font-weight: 700;
     font-size: .95rem;
     padding: .6rem 1rem;
@@ -69,7 +69,7 @@ html, body{
     cursor: pointer;
 }
 
-#issue,#man_st,#man_bk {
+#issue,#man_st,#man_bk,#man_stf,#return {
     padding: 1rem 1.3rem;
 }
 
@@ -98,12 +98,12 @@ html, body{
   width: fit-content;
 }
 
-#logout:hover, #myprofile:hover, #issue:hover,#man_st:hover,#man_bk:hover{
+#logout:hover, #myprofile:hover, #issue:hover,#man_st:hover,#man_bk:hover,#man_stf:hover,#return:hover{
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0 var(--outline);
 }
 
-#logout:active, #myprofile:active , #issue:active,#man_st:active,#man_bk:active{
+#logout:active, #myprofile:active , #issue:active,#man_st:active,#man_bk:active,#man_stf:active,#return:active{
     transform: translate(0, 0);
     box-shadow: var(--shadow);
 }

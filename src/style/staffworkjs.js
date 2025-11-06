@@ -9,18 +9,15 @@ submit_button.addEventListener('click', async (event) => {
   let isbn = document.querySelector('#isbn').value.trim();
   let staff_id = localStorage.getItem("curr_user");
 
-  console.log("Issuing for ", student_enroll, staff_id , isbn);
+  console.log("Issuing for ", student_enroll, staff_id, isbn);
 
-  const res = await fetch(`/issue?student_enroll=${encodeURIComponent(student_enroll)}&staff_id=${staff_id}&isbn=${isbn}`);
+  const res = await fetch("/issue", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ student_enroll, staff_id, isbn })
+  });
 
-  let data;
-
-  try {
-    data = await res.json().catch(()=>null);
-  } catch(err) {
-    console.log("JSON parse failed:", err);
-    return;
-  }
+  const data = await res.json().catch(()=>null);
 
   console.log(data);
 
@@ -29,9 +26,6 @@ submit_button.addEventListener('click', async (event) => {
     document.querySelector('#isbn').value = "";
     window.location.href = "/issue_successfull.html";
   } else {
-      if (!res.ok) {
-      alert(data.error || data.message || "Unknown error");
-      return;
-    }
+    alert(data.error || data.message || "Unknown error");
   }
 });

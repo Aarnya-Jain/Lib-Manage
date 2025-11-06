@@ -57,7 +57,6 @@ html, body{
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    margin: 2rem auto 0;
     border: 3px solid var(--outline);
     box-shadow: var(--shadow);
     border-radius: 16px;
@@ -71,6 +70,30 @@ html, body{
     color: var(--muted);
     background: transparent;
 }
+
+.search_bar_student{
+    width:min(760px, 92%);
+    height:64px;
+    background-color: var(--card);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem auto 0;
+    border: 3px solid var(--outline);
+    box-shadow: var(--shadow);
+    border-radius: 16px;
+    padding: .25rem .5rem .25rem 1rem;
+}
+.search_bar_student pre{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: var(--muted);
+    background: transparent;
+}
+
 .options{
     height:100%;
     width:100%;
@@ -105,7 +128,14 @@ option{ background-color: #fff; }
     padding: 0 1.25rem;
 }
 
-#logout, #myprofile{
+.bar {
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+#logout, #myprofile,#back,#add{
     font-weight: 700;
     font-size: .95rem;
     padding: .6rem 1rem;
@@ -128,11 +158,12 @@ option{ background-color: #fff; }
     border: 3px solid var(--outline);
     box-shadow: var(--shadow);
 }
-#logout:hover, #myprofile:hover{
+
+#logout:hover, #myprofile:hover,#back:hover,#add:hover{
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0 var(--outline);
 }
-#logout:active, #myprofile:active{
+#logout:active, #myprofile:active,#back:active,#add:active{
     transform: translate(0, 0);
     box-shadow: var(--shadow);
 }
@@ -149,27 +180,27 @@ option{ background-color: #fff; }
 }
 i{ background-color: transparent; }
 .icon:active{ transform: translate(0,0); }
-.bookinfo{
+.bookinfo,.studinfo,.staffinfo{
     margin: 2rem auto 3rem;
     width: min(92%, 1000px);
     font-size: 1rem;
 }
-.bookinfo td, .bookinfo th{
+.bookinfo td, .bookinfo th,.studinfo td, .studinfo th,.staffinfo td, .staffinfo th{
     height: 56px;
     padding: .5rem .75rem;
 }
 table{ visibility: hidden; }
 #sno, #shelf{ text-align: center; }
-.bookinfo th{
+.bookinfo th,.studinfo th,.staffinfo th{
     background: var(--accent);
     color: var(--text);
     border: 3px solid var(--outline);
 }
-.bookinfo td{
+.bookinfo td,.studinfo td,.staffinfo td{
     background: var(--card);
     border: 3px solid var(--outline);
 }
-#booktable{
+#booktable,#studtable,#stafftable{
     border: 3px solid var(--outline);
     border-radius: 18px;
     width:100%;
@@ -185,6 +216,18 @@ table{ visibility: hidden; }
 #booktable tr:first-child th:last-child{ border-top-right-radius: 12px; }
 #booktable tr:last-child td:first-child{ border-bottom-left-radius: 12px; }
 #booktable tr:last-child td:last-child{ border-bottom-right-radius: 12px; }
+
+#studtable tr:nth-child(even) td{ background: #FAF1E9; }
+#studtable tr:first-child th:first-child{ border-top-left-radius: 12px; }
+#studtable tr:first-child th:last-child{ border-top-right-radius: 12px; }
+#studtable tr:last-child td:first-child{ border-bottom-left-radius: 12px; }
+#studtable tr:last-child td:last-child{ border-bottom-right-radius: 12px; }
+
+#stafftable tr:nth-child(even) td{ background: #FAF1E9; }
+#stafftable tr:first-child th:first-child{ border-top-left-radius: 12px; }
+#stafftable tr:first-child th:last-child{ border-top-right-radius: 12px; }
+#stafftable tr:last-child td:first-child{ border-bottom-left-radius: 12px; }
+#stafftable tr:last-child td:last-child{ border-bottom-right-radius: 12px; }
 
 /* Focus ring for interactivity */
 select:focus-visible, input:focus-visible, .icon:focus-visible{
