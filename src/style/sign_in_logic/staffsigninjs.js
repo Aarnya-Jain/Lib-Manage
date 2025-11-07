@@ -5,7 +5,7 @@ let loginbutton = document.querySelector('#submitbtn');
 loginbutton.addEventListener('click', async (event) => {
   event.preventDefault();
 
-  const form = document.getElementsByClassName("login-box");
+  const form = event.target.closest("form");
 
   if (!form.checkValidity()) {
         form.reportValidity();

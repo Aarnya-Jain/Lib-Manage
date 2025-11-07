@@ -1,40 +1,46 @@
-// Show modal
+document.addEventListener("click", (e) => {
 
-let add_btn  = document.getElementById('add');
+    if (e.target.id === "add") {
+        e.preventDefault();
+        document.getElementById("addStudentModal").classList.add("active");
+    }
 
-add_btn.addEventListener('click',async (event)=>{
-  event.preventDefault();
-  document.getElementById('addStudentModal').classList.add('active');
+    if (e.target.id === "closeModal") {
+        e.preventDefault();
+        document.getElementById("addStudentForm").reset();
+        document.getElementById("addStudentModal").classList.remove("active");
+    }
+
+    if (e.target.id === "cancelBtn") {
+        e.preventDefault();
+        document.getElementById("addStudentForm").reset();
+        document.getElementById("addStudentModal").classList.remove("active");
+    }
+
+    if (e.target.id === "back") {
+        e.preventDefault();
+        window.location.href = "/staff.html";
+    }
+
+    if (e.target.closest(".delete-btn")) {
+        e.preventDefault();
+        const btn = e.target.closest(".delete-btn");
+        const studentId = btn.dataset.studentId;
+
+        document.getElementById('deleteConfirmMessage').textContent =
+        `Are you sure you want to delete student with Enrollment No. ${studentId}? This action cannot be undone.`;
+
+        document.getElementById("deleteConfirmModal").classList.add("active");
+
+        document.querySelector(".btn-delete-confirm").dataset.studentId = studentId;
+    }
+
+    if (e.target.classList.contains("btn-delete-cancel")) {
+        e.preventDefault();
+        document.getElementById("deleteConfirmModal").classList.remove("active");
+    }
 });
 
-// Close Modal
-
-let closeModal = document.getElementById('closeModal');
-
-closeModal.addEventListener('click',async (event)=>{
-  event.preventDefault();
-  document.getElementById("addStudentForm").reset();
-
-  document.getElementById('addStudentModal').classList.remove('active');
-});
-
-let closeModal2 = document.getElementById('cancelBtn');
-
-closeModal2.addEventListener('click',async (event)=>{
-  event.preventDefault();
-  document.getElementById("addStudentForm").reset();
-
-  document.getElementById('addStudentModal').classList.remove('active');
-});
-
-// Navigate back to staff Dashbooard
-
-let back_btn = document.querySelector('#back');
-
-back_btn.addEventListener('click',async (event)=>{
-  event.preventDefault();
-  window.location.href = "/staff.html";
-});
 
 // logic to get all student data
 document.addEventListener("DOMContentLoaded", () => {
@@ -70,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <th>Email</th>
                         <th>Branch</th>
                         <th>Graduating Year</th>
+                        <th>.</th>
                     </tr>
                     ${data.map(student => `
                         <tr>
@@ -80,6 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td>${student.email}</td>
                             <td>${student.branch}</td>
                             <td>${student.grad_year}</td>
+                            <td>
+                                <button class="delete-btn" data-student-id="${student.enrollment_no}" aria-label="Delete student">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
                         </tr>
                     `).join("")}
                   `;
@@ -134,6 +146,7 @@ searchbtn.addEventListener("click", async (event) => {
                         <th>Email</th>
                         <th>Branch</th>
                         <th>Graduating Year</th>
+                        <th>.</th>
                     </tr>
                     ${data.map(student => `
                         <tr>
@@ -144,6 +157,11 @@ searchbtn.addEventListener("click", async (event) => {
                             <td>${student.email}</td>
                             <td>${student.branch}</td>
                             <td>${student.grad_year}</td>
+                            <td>
+                                <button class="delete-btn" data-student-id="${student.enrollment_no}" aria-label="Delete student">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
                         </tr>
                     `).join("")}
                   `;
@@ -194,19 +212,17 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
 });
 
 // logic to delete student
-/*
-async function deleteStudent(enrollment_no) {
-    if (!confirm("Are you sure you want to delete this student?")) return;
+document.querySelector(".btn-delete-confirm").addEventListener("click", async (event) => {
+    const studentId = event.target.dataset.studentId;
 
     const res = await fetch("/delete/student", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ enrollment_no })
+        body: JSON.stringify({ enrollment_no: studentId })
     });
 
     const data = await res.json();
     alert(data.message);
 
     if (res.ok) location.reload();
-}
-*/
+});

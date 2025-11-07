@@ -36,6 +36,33 @@ back_btn.addEventListener('click',async (event)=>{
   window.location.href = "/staff.html";
 });
 
+// 
+
+document.addEventListener("click", (e) => {
+
+    const deleteBtn = e.target.closest(".delete-btn");
+    if (deleteBtn) {
+        e.preventDefault();
+        const staffId = deleteBtn.dataset.staffId;
+
+        console.log("Delete staff clicked:", staffId);
+
+        document.getElementById("deleteConfirmMessage").textContent =
+            `Are you sure you want to delete staff ID ${staffId}? This action cannot be undone.`;
+
+        document.querySelector(".btn-delete-confirm").dataset.staffId = staffId;
+
+        document.getElementById("deleteConfirmModal").classList.add("active");
+        return;
+    }
+
+    if (e.target.classList.contains("btn-delete-cancel")) {
+        e.preventDefault();
+        document.getElementById("deleteConfirmModal").classList.remove("active");
+    }
+});
+
+
 // logic to get all staff data
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -69,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <th>Phone No.</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>.</th>
                     </tr>
                     ${data.map(staff => `
                         <tr>
@@ -78,6 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td>${staff.phno}</td>
                             <td>${staff.email}</td>
                             <td>${staff.role}</td>
+                            <td>
+                                <button class="delete-btn" data-staff-id="${staff.staff_id}" aria-label="Delete staff">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
                         </tr>
                     `).join("")}
                   `;
@@ -131,6 +164,7 @@ searchbtn.addEventListener("click", async (event) => {
                         <th>Phone No.</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>.</th>
                     </tr>
                     ${data.map(staff => `
                         <tr>
@@ -140,6 +174,11 @@ searchbtn.addEventListener("click", async (event) => {
                             <td>${staff.phno}</td>
                             <td>${staff.email}</td>
                             <td>${staff.role}</td>
+                            <td>
+                                <button class="delete-btn" data-staff-id="${staff.staff_id}" aria-label="Delete staff">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
                         </tr>
                     `).join("")}
                   `;
@@ -186,20 +225,19 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
 });
 
 // logic to delete staff
-/*
-async function deleteStaff(staff_id) {
-    if (!confirm("Delete this staff?")) return;
+document.querySelector(".btn-delete-confirm").addEventListener("click", async (event) => {
+    const staffId = event.target.dataset.staffId;
+
+    if (!staffId) return;
 
     const res = await fetch("/delete/staff", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ staff_id })
+        body: JSON.stringify({ staff_id: staffId })
     });
 
     const data = await res.json();
     alert(data.message);
 
     if (res.ok) location.reload();
-}
-
-*/
+});

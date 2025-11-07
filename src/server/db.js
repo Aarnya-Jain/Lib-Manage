@@ -476,6 +476,11 @@ app.delete("/delete/staff", async (req, res) => {
     if (result === 2)
       return res.status(404).json({ message: "Staff not found" });
 
+    if (result === 3)
+      return res.status(400).json({
+        message: "Cannot delete this staff because they are linked to issue history"
+      });
+
     res.status(400).json({ message: "Unknown error" });
 
   } catch (err) {
@@ -505,6 +510,13 @@ app.delete("/delete/book", async (req, res) => {
 
     if (result === 2)
       return res.status(404).json({ message: "Book not found" });
+
+    if (result === 3)
+       return res.status(400).json({ message: "Cannot delete book because it is currently issued" });
+
+    if (result === 4)
+      return res.status(400).json({ message: "Cannot delete because this book exists in issue history" });
+    
 
     res.status(400).json({ message: "Unknown error" });
 

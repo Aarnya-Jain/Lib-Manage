@@ -1,0 +1,248 @@
+/* Neobrutalism Pastel Theme Tokens - Consistent with site */
+:root{
+    --bg: #F7F5FF;
+    --card: #FFF7F0;
+    --accent: #A3CCDA;
+    --accent-2: #FAD9E6;
+    --accent-3: #D8F3DC;
+    --text: #1f2430;
+    --muted: #6c7480;
+    --outline: #0E0E10;
+    --shadow: 6px 6px 0 var(--outline);
+    --danger: #ff6b6b;
+    --danger-dark: #ee5a52;
+}
+
+/* Delete Button - For table rows */
+.delete-btn {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    background-color: var(--danger);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.delete-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--outline);
+    background-color: var(--danger-dark);
+}
+
+.delete-btn:active {
+    transform: translate(0, 0);
+    box-shadow: var(--shadow);
+}
+
+.delete-btn:focus-visible {
+    outline: 3px dashed var(--outline);
+    outline-offset: 3px;
+}
+
+.delete-btn i {
+    background: transparent;
+    color: inherit;
+}
+
+/* Delete Modal Overlay - Backdrop */
+.delete-modal-overlay {
+    display: none; /* Hidden by default, JS will toggle */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 15, 16, 0.6); /* Semi-transparent dark backdrop */
+    z-index: 1001;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+/* Show modal when active */
+.delete-modal-overlay.active {
+    display: flex;
+}
+
+/* Delete Modal Container */
+.delete-modal-container {
+    background-color: var(--card);
+    border: 4px solid var(--outline);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    animation: deleteModalPopIn 0.2s ease-out;
+}
+
+/* Modal entrance animation */
+@keyframes deleteModalPopIn {
+    from {
+        transform: scale(0.95) translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Delete Modal Header */
+.delete-modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 2rem 1rem;
+    border-bottom: 3px solid var(--outline);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background: linear-gradient(180deg, var(--accent-2), var(--card));
+}
+
+.delete-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border: 4px solid var(--outline);
+    border-radius: 16px;
+    background-color: var(--danger);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
+
+.delete-icon-wrapper i {
+    font-size: 1.75rem;
+    background: transparent;
+}
+
+.delete-modal-header h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    font-weight: 800;
+    color: var(--text);
+    background: transparent;
+}
+
+/* Delete Modal Content */
+.delete-modal-content {
+    padding: 1.5rem 2rem;
+}
+
+.delete-modal-content p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text);
+    text-align: center;
+    background: transparent;
+}
+
+/* Delete Modal Actions */
+.delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-top: 3px solid var(--outline);
+}
+
+.btn-delete-cancel,
+.btn-delete-confirm {
+    padding: 0.75rem 2rem;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 120px;
+}
+
+.btn-delete-cancel {
+    background-color: var(--accent-3);
+    color: var(--text);
+}
+
+.btn-delete-confirm {
+    background-color: var(--danger);
+    color: #fff;
+}
+
+.btn-delete-cancel:hover,
+.btn-delete-confirm:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--outline);
+}
+
+.btn-delete-cancel:hover {
+    background-color: var(--accent-2);
+}
+
+.btn-delete-confirm:hover {
+    background-color: var(--danger-dark);
+}
+
+.btn-delete-cancel:active,
+.btn-delete-confirm:active {
+    transform: translate(0, 0);
+    box-shadow: var(--shadow);
+}
+
+/* Focus states for accessibility */
+.btn-delete-cancel:focus-visible,
+.btn-delete-confirm:focus-visible {
+    outline: 3px dashed var(--outline);
+    outline-offset: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .delete-modal-container {
+        max-width: 95%;
+        margin: 1rem;
+    }
+
+    .delete-modal-header {
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .delete-icon-wrapper {
+        width: 56px;
+        height: 56px;
+    }
+
+    .delete-icon-wrapper i {
+        font-size: 1.5rem;
+    }
+
+    .delete-modal-content {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .delete-modal-actions {
+        flex-direction: column-reverse;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .btn-delete-cancel,
+    .btn-delete-confirm {
+        width: 100%;
+    }
+}
+

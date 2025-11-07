@@ -34,6 +34,28 @@ back_btn.addEventListener('click',async (event)=>{
   window.location.href = "/staff.html";
 });
 
+document.addEventListener("click", async (e) => {
+
+    if (e.target.closest(".delete-btn") && e.target.closest(".delete-btn").dataset.bookIsbn) {
+        e.preventDefault();
+
+        const btn = e.target.closest(".delete-btn");
+        const isbn = btn.dataset.bookIsbn;
+
+        document.getElementById('deleteConfirmMessage').textContent = `Are you sure you want to delete the book with ISBN "${isbn}"? This action cannot be undone.`;
+
+        document.querySelector(".btn-delete-confirm").dataset.bookIsbn = isbn;
+
+        document.getElementById("deleteConfirmModal").classList.add("active");
+    }
+
+    if (e.target.classList.contains("btn-delete-cancel")) {
+        document.getElementById("deleteConfirmModal").classList.remove("active");
+    }
+
+});
+
+
 // getting all book data
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -68,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <th>Category</th>
                     <th>Shelf No.</th>
                     <th>Quantity Available</th>
+                    <th>.</th>
                 </tr>
                 ${data.map(book => `
                     <tr>
@@ -77,6 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${book.category}</td>
                         <td>${book.shelf_no}</td>
                         <td>${book.quantity}</td>
+                        <td>
+                            <button class="delete-btn" data-book-isbn="${book.isbn}" aria-label="Delete book">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
                     </tr>
                 `).join("")}
               `;
@@ -128,6 +156,7 @@ searchbtn.addEventListener("click", async (event) => {
                     <th>Category</th>
                     <th>Shelf No.</th>
                     <th>Quantity Available</th>
+                    <th>.</th>
                 </tr>
                 ${data.map(book => `
                     <tr>
@@ -137,6 +166,11 @@ searchbtn.addEventListener("click", async (event) => {
                         <td>${book.category}</td>
                         <td>${book.shelf_no}</td>
                         <td>${book.quantity}</td>
+                        <td>
+                            <button class="delete-btn" data-book-isbn="${book.isbn}" aria-label="Delete book">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
                     </tr>
                 `).join("")}
               `;
@@ -190,9 +224,8 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
 });
 
 // logic to delete book
-/*
-async function deleteBook(isbn) {
-    if (!confirm("Delete this book?")) return;
+document.querySelector(".btn-delete-confirm").addEventListener("click", async (event) => {
+    const isbn = event.target.dataset.bookIsbn;
 
     const res = await fetch("/delete/book", {
         method: "DELETE",
@@ -204,6 +237,4 @@ async function deleteBook(isbn) {
     alert(data.message);
 
     if (res.ok) location.reload();
-}
-
-*/
+});
