@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-/* Neobrutalism Pastel Theme Tokens */
+/* Pastel Theme Tokens */
 :root{
     --bg: #F7F5FF;
     --card: #FFF7F0;
@@ -95,8 +95,13 @@ label{
     font-size: 1rem;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; */
     display: block;
+}
+
+.required {
+    color: #e63946;
+    font-weight: 800;
 }
 
 #name, #passwd{
@@ -111,7 +116,7 @@ label{
     font-family: inherit;
     box-shadow: var(--shadow);
     transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
-    margin-top: 0;
+    /* margin-top: 0; */
 }
 
 #name:focus,

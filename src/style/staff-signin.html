@@ -21,9 +21,9 @@
         <form class="login-box">
             <fieldset>
             <legend>Staff Login</legend>
-                <label for="name">Staff Id</label>
+                <label for="name">Staff Id<span class="required">*</span></label>
                 <input type="text" id="name" name="name" required><br>
-                <label for="passwd">Password</label>
+                <label for="passwd">Password<span class="required">*</span></label>
                 <input type="password" id="passwd" name="passwd" required>
             <div id="sbutton">
                 <button id="submitbtn" type="submit">Submit</button>
@@ -33,5 +33,5 @@
 
     </div>
 </body>
-<script src="staffsigninjs.js"></script>
+<script src="./sign_in_logic/staffsigninjs.js"></script>
 </html>

@@ -184,6 +184,49 @@
     padding-right: 2.5rem;
 }
 
+/* File Input Styling - Neobrutalism theme */
+.form-group input[type="file"] {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+/* Style the "Choose File" button inside file input */
+.form-group input[type="file"]::file-selector-button {
+    padding: 0.5rem 1rem;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    background-color: var(--accent-3);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-right: 0.75rem;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+    background-color: var(--accent-2);
+}
+
+.form-group input[type="file"]::file-selector-button:active {
+    background-color: var(--accent-3);
+}
+
+/* File input text area styling */
+.form-group input[type="file"] {
+    color: var(--text);
+}
+
+.form-group input[type="file"]:focus {
+    outline: none;
+}
+
+.form-group input[type="file"]:focus::file-selector-button {
+    outline: 3px dashed var(--outline);
+    outline-offset: 3px;
+}
+
 /* Form Actions - Buttons */
 .form-actions {
     display: flex;

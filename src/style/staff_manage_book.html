@@ -74,7 +74,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="isbn">ISBN <span class="required">*</span></label>
-                        <input type="text" id="isbn" name="isbn" required placeholder="Enter ISBN number">
+                        <input type="text" id="isbn" name="isbn" required placeholder="Enter ISBN number ( 13 digits )">
                     </div>
                     <div class="form-group">
                         <label for="category">Category <span class="required">*</span></label>
@@ -97,7 +97,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="shelf_no">Shelf Number <span class="required">*</span></label>
-                        <input type="text" id="shelf_no" name="shelf_no" required placeholder="e.g., A-101">
+                        <input type="number" id="shelf_no" name="shelf_no" required placeholder="( 1 - 20 )" min="1" max="20">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity Available <span class="required">*</span></label>
@@ -114,5 +114,5 @@
     </div>
 
 </body>
-<script src="./js/staff_manage_book.js"></script>
+<script src="./staff_work_logic/staff_manage_book.js"></script>
 </html>

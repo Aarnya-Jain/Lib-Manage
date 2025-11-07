@@ -1,11 +1,46 @@
 import express from "express";
 import mysql from "mysql2/promise";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(express.json());
 app.use(express.static("../style"));
-
 app.use("/public", express.static("../../public"));
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.urlencoded({ extended: true }));
+
+// Storage settings for student images
+const storage1 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../../public/images/students"));
+  },
+  filename: (req, file, cb) => {
+    const enr = req.body.enrollment_no;
+    cb(null, `${enr}.jpg`);
+  }
+});
+
+// Storage settings for student images
+const storage2 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../../public/images/staff"));
+  },
+  filename: (req, file, cb) => {
+    const stid = req.body.staff_id;
+    cb(null, `${stid}.jpg`);
+  }
+});
+
+//  Use .single() for correct file parsing
+const upload1 = multer({ storage: storage1 }); // student
+const upload2 = multer({ storage: storage2 }); // staff
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -142,38 +177,6 @@ app.get("/login/staff", async (req, res) => {
   }
 });
 
-// issue book to student by staff
-app.post("/issue", async (req, res) => {
-  try {
-    const { student_enroll, isbn, staff_id } = req.body;
-
-    if (!/^\d+$/.test(student_enroll))
-      return res.status(400).json({ error: "Student enrollment must be a number" });
-
-    if (!/^\d+$/.test(staff_id))
-      return res.status(400).json({ error: "Staff ID must be a number" });
-
-    const [rows] = await pool.query("CALL issue_book(?, ?, ?)", [
-      student_enroll,
-      staff_id,
-      isbn
-    ]);
-
-    const result = rows[0][0];
-
-    if (result.success === 1) {
-      res.json({ message: "Book issued successfully" });
-    } else {
-      res.status(400).json({ message: "Issue failed" });
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
-
-
 // route to fetch all student data by enrollment
 app.get("/info/student", async (req, res) => {
 
@@ -240,7 +243,309 @@ app.get("/info/student/issue_history", async (req, res) => {
     }
 });
 
+// route to add student to the table
+app.post("/add/student", upload1.single("image"), async (req, res) => {
+  try {
+    const {
+      enrollment_no,
+      name,
+      phno,
+      email,
+      branch,
+      grad_year,
+      passwd,
+      staff_id
+    } = req.body;
 
+    if (!/^\d+$/.test(enrollment_no))
+      return res.status(400).json({ error: "Enrollment number must be numeric" });
+
+    if (!/^[0-9]{10}$/.test(phno))
+      return res.status(400).json({ error: "Phone number must be 10 digits" });
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return res.status(400).json({ error: "Invalid email format" });
+
+    if (!/^\d+$/.test(staff_id))
+      return res.status(400).json({ error: "Staff ID must be numeric" });
+
+    const imagePath = `/public/images/students/${enrollment_no}.jpg`;
+
+    const [rows] = await pool.query(
+      "SELECT register_student(?, ?, ?, ?, ?, ?, ?, ?, ?) AS result",
+      [
+        enrollment_no,
+        name,
+        phno,
+        email,
+        branch,
+        grad_year,
+        imagePath,
+        passwd,
+        staff_id
+      ]
+    );
+
+    const result = rows[0].result;
+
+    // if registration failed -> delete uploaded image
+    if (result !== 1) {
+      const filePath = `public/images/students/${enrollment_no}.jpg`;
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+
+    if (result === 1)
+      return res.json({ message: "Student registered successfully" });
+
+    if (result === 2)
+      return res.status(400).json({ message: "Enrollment already exists" });
+
+    if (result === 3)
+      return res.status(400).json({ message: "Invalid staff ID" });
+
+    res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to add staff to the table
+app.post("/add/staff", upload2.single("image"), async (req, res) => {
+  try {
+    const {
+      staff_id,
+      name,
+      phno,
+      email,
+      role,
+      passwd,
+    } = req.body;
+
+    if (!/^\d+$/.test(staff_id))
+      return res.status(400).json({ error: "Staff ID must be numeric" });
+
+    if (!/^[0-9]{10}$/.test(phno))
+      return res.status(400).json({ error: "Phone number must be 10 digits" });
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return res.status(400).json({ error: "Invalid email format" });
+
+    const imagePath = `/public/images/staff/${staff_id}.jpg`;
+
+    const [rows] = await pool.query(
+      "SELECT register_staff(?, ?, ?, ?, ?, ?, ?) AS result",
+      [
+        staff_id,
+        name,
+        phno,
+        email,
+        role,
+        imagePath,
+        passwd
+      ]
+    );
+
+    const result = rows[0].result;
+
+    // if registration failed -> delete uploaded image
+    if (result !== 1) {
+      const filePath = `public/images/staff/${staff_id}.jpg`;
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+
+    if (result === 1)
+      return res.json({ message: "Staff registered successfully" });
+
+    if (result === 2)
+      return res.status(400).json({ message: "Staff already exists" });
+
+    res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to add book to the table
+app.post("/add/book", async (req, res) => {
+  try {
+    const {
+      title,
+      author,
+      isbn,
+      category,
+      shelf_no,
+      quantity
+    } = req.body;
+
+    if (!/^\d{13}$/.test(isbn))
+      return res.status(400).json({ error: "ISBN must be exactly 13 digits" });
+
+    if (!/^\d+$/.test(shelf_no))
+      return res.status(400).json({ error: "Shelf number must be numeric" });
+
+    if (!/^\d+$/.test(quantity))
+      return res.status(400).json({ error: "Quantity must be numeric" });
+
+    const [rows] = await pool.query(
+      "SELECT add_book(?, ?, ?, ?, ?, ?) AS result",
+      [
+        title,
+        author,
+        isbn,
+        category,
+        shelf_no,
+        quantity
+      ]
+    );
+
+    const result = rows[0].result;
+
+    if (result === 1)
+      return res.json({ message: "New book added successfully" });
+
+    if (result === 2)
+      return res.json({ message: "Book exists — quantity updated successfully" });
+
+    return res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to delete student by enrollment_no
+app.delete("/delete/student", async (req, res) => {
+  try {
+    const { enrollment_no } = req.body;
+
+    if (!/^\d+$/.test(enrollment_no))
+      return res.status(400).json({ error: "Invalid enrollment number" });
+
+    const [rows] = await pool.query(
+      "SELECT delete_student(?) AS result",
+      [enrollment_no]
+    );
+
+    const result = rows[0].result;
+
+    if (result === 1) {
+      const imgPath = path.join(__dirname, "../../public/images/students", `${enrollment_no}.jpg`);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+
+      return res.json({ message: "Student deleted successfully" });
+    }
+
+    if (result === 2)
+      return res.status(404).json({ message: "Student not found" });
+
+    res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to delete staff by staff_id
+app.delete("/delete/staff", async (req, res) => {
+  try {
+    const { staff_id } = req.body;
+
+    if (!/^\d+$/.test(staff_id))
+      return res.status(400).json({ error: "Invalid staff ID" });
+
+    const [rows] = await pool.query(
+      "SELECT delete_staff(?) AS result",
+      [staff_id]
+    );
+
+    const result = rows[0].result;
+
+    if (result === 1) {
+      const imgPath = path.join(__dirname, "../../public/images/staff", `${staff_id}.jpg`);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+
+      return res.json({ message: "Staff deleted successfully" });
+    }
+
+    if (result === 2)
+      return res.status(404).json({ message: "Staff not found" });
+
+    res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+
+// route to delete book by isbn
+app.delete("/delete/book", async (req, res) => {
+  try {
+    const { isbn } = req.body;
+
+    if (!/^\d{13}$/.test(isbn))
+      return res.status(400).json({ error: "ISBN must be 13 digits" });
+
+    const [rows] = await pool.query(
+      "SELECT delete_book(?) AS result",
+      [isbn]
+    );
+
+    const result = rows[0].result;
+
+    if (result === 1)
+      return res.json({ message: "Book deleted successfully" });
+
+    if (result === 2)
+      return res.status(404).json({ message: "Book not found" });
+
+    res.status(400).json({ message: "Unknown error" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to issue book to student by staff
+app.post("/issue", async (req, res) => {
+  try {
+    const { student_enroll, isbn, staff_id } = req.body;
+
+    if (!/^\d+$/.test(student_enroll))
+      return res.status(400).json({ error: "Student enrollment must be a number" });
+
+    if (!/^\d+$/.test(staff_id))
+      return res.status(400).json({ error: "Staff ID must be a number" });
+
+    const [rows] = await pool.query("CALL issue_book(?, ?, ?)", [
+      student_enroll,
+      staff_id,
+      isbn
+    ]);
+
+    const result = rows[0][0];
+
+    if (result.success === 1) {
+      res.json({ message: "Book issued successfully" });
+    } else {
+      res.status(400).json({ message: "Issue failed" });
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route to return book from student by staff
 
 
 
