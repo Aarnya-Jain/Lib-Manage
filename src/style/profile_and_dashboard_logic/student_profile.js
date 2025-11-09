@@ -35,7 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
             data = data.filter(row => Array.isArray(row) && row.length > 0).map(row => row[0]);
 
             const container = document.querySelector("#issue-table");
-            container.innerHTML = `
+            container.innerHTML = data.length === 0
+            ? `
+                <tr>
+                    <td colspan="6" style="
+                        text-align:center;
+                        padding:20px;
+                        font-size:20px;
+                        font-weight:600;
+                        border-radius:10px;
+                    ">No Issue History found.</td>
+                </tr>
+              `
+            : `
                 <tr id="first-row">
 
                 <th>Sno</th>

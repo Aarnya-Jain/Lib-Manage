@@ -37,7 +37,7 @@ loginbutton.addEventListener('click', async (event) => {
     localStorage.setItem("curr_user", usrname);
   } else {
       if (!res.ok) {
-      alert(data.error || data.message || "Unknown error");
+      showErrorAlert(data.error || data.message || "Unknown error");
       return;
     }
   }

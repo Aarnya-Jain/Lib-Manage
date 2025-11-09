@@ -1,9 +1,5 @@
 document.addEventListener("click", (e) => {
 
-    if (e.target.id === "issue") {
-        window.location.href = "/staff_issue.html";
-    }
-
     if (e.target.id === "man_st") {
         window.location.href = "/staff_manage_student.html";
     }
@@ -14,6 +10,10 @@ document.addEventListener("click", (e) => {
 
     if (e.target.id === "man_stf") {
         window.location.href = "/staff_manage_staff.html";
+    }
+
+    if (e.target.id === "return") {
+        window.location.href = "/staff_manage_issue.html";
     }
 });
 
@@ -62,8 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (data[0].role === "librarian") {
                 workButtons.appendChild(makeBtn("man_bk", "Manage Books"));
-                workButtons.appendChild(makeBtn("issue", "Issue Books"));
-                workButtons.appendChild(makeBtn("return", "Return Books"));
+                workButtons.appendChild(makeBtn("return", "Manage Book Issues"));
             }
 
             else if (data[0].role === "admin") {

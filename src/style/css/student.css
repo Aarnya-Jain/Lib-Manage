@@ -147,6 +147,36 @@ option{ background-color: #fff; }
     cursor: pointer;
 }
 
+.buttons {
+    display: flex;
+}
+
+#issue_btn {
+    font-weight: 700;
+    font-size: .95rem;
+    padding: .6rem 1rem;
+    border: 3px solid var(--outline);
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    background-color: var(--accent-2);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+#return_btn{
+    font-weight: 700;
+    font-size: .95rem;
+    padding: .6rem 1rem;
+    border: 3px solid var(--outline);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: var(--accent-3);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
 .profile {
     display: flex;
     gap: 15px;
@@ -164,7 +194,12 @@ option{ background-color: #fff; }
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0 var(--outline);
 }
-#logout:active, #myprofile:active,#back:active,#add:active{
+
+#issue_btn:hover,#return_btn:hover{
+    transform: translate(-2px, -2px);
+}
+
+#logout:active, #myprofile:active,#back:active,#add:active,#issue_btn:active,#return_btn:active{
     transform: translate(0, 0);
     box-shadow: var(--shadow);
 }
@@ -181,27 +216,27 @@ option{ background-color: #fff; }
 }
 i{ background-color: transparent; }
 .icon:active{ transform: translate(0,0); }
-.bookinfo,.studinfo,.staffinfo{
+.bookinfo,.studinfo,.staffinfo,.issueinfo{
     margin: 2rem auto 3rem;
     width: min(92%, 1000px);
     font-size: 1rem;
 }
-.bookinfo td, .bookinfo th,.studinfo td, .studinfo th,.staffinfo td, .staffinfo th{
+.bookinfo td, .bookinfo th,.studinfo td, .studinfo th,.staffinfo td, .staffinfo th, .issueinfo td, .issueinfo th{
     height: 56px;
     padding: .5rem .75rem;
 }
 table{ visibility: hidden; }
 #sno, #shelf{ text-align: center; }
-.bookinfo th,.studinfo th,.staffinfo th{
+.bookinfo th,.studinfo th,.staffinfo th, .issueinfo th{
     background: var(--accent);
     color: var(--text);
     border: 3px solid var(--outline);
 }
-.bookinfo td,.studinfo td,.staffinfo td{
+.bookinfo td,.studinfo td,.staffinfo td, .issueinfo td{
     background: var(--card);
     border: 3px solid var(--outline);
 }
-#booktable,#studtable,#stafftable{
+#booktable,#studtable,#stafftable,#issuetable{
     border: 3px solid var(--outline);
     border-radius: 18px;
     width:100%;
@@ -229,6 +264,12 @@ table{ visibility: hidden; }
 #stafftable tr:first-child th:last-child{ border-top-right-radius: 12px; }
 #stafftable tr:last-child td:first-child{ border-bottom-left-radius: 12px; }
 #stafftable tr:last-child td:last-child{ border-bottom-right-radius: 12px; }
+
+#issuetable tr:nth-child(even) td{ background: #FAF1E9; }
+#issuetable tr:first-child th:first-child{ border-top-left-radius: 12px; }
+#issuetable tr:first-child th:last-child{ border-top-right-radius: 12px; }
+#issuetable tr:last-child td:first-child{ border-bottom-left-radius: 12px; }
+#issuetable tr:last-child td:last-child{ border-bottom-right-radius: 12px; }
 
 /* Focus ring for interactivity */
 select:focus-visible, input:focus-visible, .icon:focus-visible{

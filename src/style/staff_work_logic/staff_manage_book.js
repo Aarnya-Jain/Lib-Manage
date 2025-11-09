@@ -92,7 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <th>Quantity Available</th>
                     <th>.</th>
                 </tr>
-                ${data.map(book => `
+                ${
+                    data.map(book => `
                     <tr>
                         <td>${book.title}</td>
                         <td>${book.author}</td>
@@ -106,7 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             </button>
                         </td>
                     </tr>
-                `).join("")}
+                `).join("")
+            }
               `;
         });
 });
@@ -211,15 +213,15 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         console.log(data);
 
         if (res.ok) {
-            alert(data.message);
+            showSuccessAlert(data.message);
             form.reset();
         } else {
-            alert(data.message || data.error || "Error");
+            showErrorAlert(data.message || data.error || "Error");
         }
 
     } catch (err) {
         console.error("Request failed:", err);
-        alert("Request failed");
+        showErrorAlert("Request failed");
     }
 });
 
@@ -234,7 +236,7 @@ document.querySelector(".btn-delete-confirm").addEventListener("click", async (e
     });
 
     const data = await res.json();
-    alert(data.message);
+    showSuccessAlert(data.message);
 
     if (res.ok) location.reload();
 });

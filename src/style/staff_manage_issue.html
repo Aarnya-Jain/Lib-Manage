@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashbooard - Manage Issues</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/student.css">
+    <link rel="stylesheet" href="./css/add-book-modal.css">
+    <link rel="stylesheet" href="./css/delete-confirm-modal.css">
+    <link rel="stylesheet" href="./css/issue-book-modal.css">
+    <link rel="stylesheet" href="./css/return-book-modal.css">
+    <link rel="stylesheet" href="./css/custom-alert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="main-heading" role="banner">
+        <div class="jiit_img">
+            <img id="jiit" src="https://www.jiit.ac.in/sites/default/files/logo_0.png" alt="JIIT logo">
+        </div>
+        <h1 id="heading1">Learning Resource Center</h1>
+    </header>
+
+    <div class="bar">
+      <button id="back">Back</button>
+
+      <div class="search_bar">
+        <pre>Search:</pre>
+        <div class="options">
+
+            <select name="search_by" id="search_by">
+                <option value="" disabled selected hidden>All</option>
+                <option value="enrollment_no">Enrollment No.</option>
+                <option value="student_name">Student Name</option>
+                <option value="staff_name">Staff Name</option>
+                <option value="book_title">Title</option>
+                <option value="isbn">ISBN</option>
+                <option value="issue_date">Issue Date</option>
+                <option value="return_date">Return Date</option>
+                <!-- <option value="return_status">Return status</option> -->
+            </select>
+            <input type="text" name="text" id="search" placeholder="Type here">
+            <submit class="icon">
+                <i id="searchbtn" class="fa-solid fa-magnifying-glass"></i>
+            </submit>
+        </div>
+
+    </div>
+    <div class="buttons">
+        <button id="issue_btn">Issue Book</button>
+        <button id="return_btn">Return Book</button>
+    </div>
+    </div>
+
+    <div class="issueinfo">
+    <table id="issuetable" border="n">
+      <!-- data comes here -->
+    </table>
+    </div>
+
+
+    <!-- Issue Book Modal -->
+    <div id="issueBookModal" class="issue-modal-overlay">
+        <div class="issue-modal-container">
+            <div class="issue-modal-header">
+                <h1>Issue Book</h1>
+                <button class="issue-modal-close" id="issueModalClose" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="border">
+                <form id="issueBookForm" action="issue_successfull.html" target="_blank">
+                    <div class="entry">
+                        <h2>Student Info:</h2>
+                        <div class="student_info">
+                            <label for="enr">Enrollment No.:<span class="required">*</span> </label>
+                            <input id="issue_enr" name="enr" required placeholder="Enter enrollment number">
+                        </div>
+                        <br><br>
+                        <h2>Book Info:</h2>
+                        <div class="book_info">
+                            <div id="one">
+                                <label for="isbn">ISBN<span class="required">*</span> </label>
+                                <input id="issue_isbn" name="isbn" required placeholder="Enter ISBN number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit">
+                        <button id="submit_button_issue" type="button">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Book Modal -->
+    <div id="returnBookModal" class="return-modal-overlay">
+        <div class="return-modal-container">
+            <div class="return-modal-header">
+                <h1>Return Book</h1>
+                <button class="return-modal-close" id="returnModalClose" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="border">
+                <form id="returnBookForm" action="return_successfull.html" target="_blank">
+                    <div class="entry">
+                        <h2>Student Info:</h2>
+                        <div class="student_info">
+                            <label for="enr">Enrollment No.:<span class="required">*</span> </label>
+                            <input id="return_enr" name="enr" required placeholder="Enter enrollment number">
+                        </div>
+                        <br><br>
+                        <h2>Book Info:</h2>
+                        <div class="book_info">
+                            <div id="one">
+                                <label for="isbn">ISBN<span class="required">*</span> </label>
+                                <input id="return_isbn" name="isbn" required placeholder="Enter ISBN number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit">
+                        <button id="submit_button_return" type="button">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+     <!-- Custom Alert Modal -->
+    <div id="customAlertOverlay" class="custom-alert-overlay">
+        <div id="customAlertContainer" class="custom-alert-container">
+            <div class="custom-alert-header">
+                <div id="customAlertIcon" class="custom-alert-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <h2 id="customAlertTitle" class="custom-alert-title">Alert</h2>
+            </div>
+            <div class="custom-alert-content">
+                <p id="customAlertMessage" class="custom-alert-message"></p>
+            </div>
+            <div class="custom-alert-actions">
+                <button type="button" class="custom-alert-btn custom-alert-btn-ok" id="customAlertOk">OK</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/custom-alert.js"></script>
+<script src="./staff_work_logic/staff_manage_issue.js"></script>
+<script src="./staff_work_logic/staff_manage_return.js"></script>
+</html>

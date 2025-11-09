@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style_student.css">
+    <link rel="stylesheet" href="./css/custom-alert.css">
 </head>
 
 <body>
@@ -32,6 +33,24 @@
         </form>
 
     </div>
+     <!-- Custom Alert Modal -->
+    <div id="customAlertOverlay" class="custom-alert-overlay">
+        <div id="customAlertContainer" class="custom-alert-container">
+            <div class="custom-alert-header">
+                <div id="customAlertIcon" class="custom-alert-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <h2 id="customAlertTitle" class="custom-alert-title">Alert</h2>
+            </div>
+            <div class="custom-alert-content">
+                <p id="customAlertMessage" class="custom-alert-message"></p>
+            </div>
+            <div class="custom-alert-actions">
+                <button type="button" class="custom-alert-btn custom-alert-btn-ok" id="customAlertOk">OK</button>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="./js/custom-alert.js"></script>
 <script src="./sign_in_logic/studentsigninjs.js"></script>
 </html>

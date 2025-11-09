@@ -1,0 +1,247 @@
+/* Neobrutalism Pastel Theme Tokens - Consistent with site */
+:root{
+    --bg: #F7F5FF;
+    --card: #FFF7F0;
+    --accent: #A3CCDA;
+    --accent-2: #FAD9E6;
+    --accent-3: #D8F3DC;
+    --text: #1f2430;
+    --muted: #6c7480;
+    --outline: #0E0E10;
+    --shadow: 6px 6px 0 var(--outline);
+    --success: #51cf66;
+    --warning: #ffd43b;
+    --error: #ff6b6b;
+    --info: #4dabf7;
+}
+
+/* Custom Alert Overlay - Backdrop */
+.custom-alert-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 15, 16, 0.6); /* Semi-transparent dark backdrop */
+    z-index: 2000; /* Higher than other modals */
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+    animation: alertFadeIn 0.2s ease-out;
+}
+
+/* Show alert when active */
+.custom-alert-overlay.active {
+    display: flex;
+}
+
+/* Alert fade in animation */
+@keyframes alertFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Custom Alert Container */
+.custom-alert-container {
+    background-color: var(--card);
+    border: 4px solid var(--outline);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    animation: alertPopIn 0.2s ease-out;
+}
+
+/* Alert pop in animation */
+@keyframes alertPopIn {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Alert Header */
+.custom-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-bottom: 3px solid var(--outline);
+    background: linear-gradient(180deg, var(--accent-2), var(--card));
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.custom-alert-icon {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+}
+
+.custom-alert-icon i {
+    font-size: 1.5rem;
+    background: transparent;
+}
+
+/* Alert icon colors based on type */
+.custom-alert-icon.success {
+    background-color: var(--success);
+    color: #fff;
+}
+
+.custom-alert-icon.error {
+    background-color: var(--error);
+    color: #fff;
+}
+
+.custom-alert-icon.warning {
+    background-color: var(--warning);
+    color: var(--text);
+}
+
+.custom-alert-icon.info {
+    background-color: var(--info);
+    color: #fff;
+}
+
+.custom-alert-title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 800;
+    color: var(--text);
+    background: transparent;
+}
+
+/* Alert Content */
+.custom-alert-content {
+    padding: 1.5rem 2rem;
+}
+
+.custom-alert-message {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text);
+    text-align: left;
+    background: transparent;
+    word-wrap: break-word;
+    font-weight: 700;
+}
+
+/* Alert Actions */
+.custom-alert-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1rem 2rem 1.5rem;
+    border-top: 3px solid var(--outline);
+}
+
+.custom-alert-btn {
+    padding: 0.75rem 2rem;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 100px;
+}
+
+.custom-alert-btn-ok {
+    background-color: var(--accent-2);
+    color: var(--text);
+}
+
+.custom-alert-btn-ok:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--outline);
+}
+
+.custom-alert-btn-ok:active {
+    transform: translate(0, 0);
+    box-shadow: var(--shadow);
+}
+
+.custom-alert-btn-ok:focus-visible {
+    outline: 3px dashed var(--outline);
+    outline-offset: 3px;
+}
+
+/* Success variant */
+.custom-alert-container.success .custom-alert-btn-ok {
+    background-color: var(--success);
+    color: #fff;
+}
+
+/* Error variant */
+.custom-alert-container.error .custom-alert-btn-ok {
+    background-color: var(--error);
+    color: #fff;
+}
+
+/* Warning variant */
+.custom-alert-container.warning .custom-alert-btn-ok {
+    background-color: var(--warning);
+    color: var(--text);
+}
+
+/* Info variant */
+.custom-alert-container.info .custom-alert-btn-ok {
+    background-color: var(--info);
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .custom-alert-container {
+        max-width: 95%;
+        margin: 1rem;
+    }
+
+    .custom-alert-header {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .custom-alert-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .custom-alert-icon i {
+        font-size: 1.25rem;
+    }
+
+    .custom-alert-content {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .custom-alert-actions {
+        padding: 1rem 1.5rem 1.25rem;
+        flex-direction: column;
+    }
+
+    .custom-alert-btn {
+        width: 100%;
+    }
+}
+

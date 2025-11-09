@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/student.css">
     <link rel="stylesheet" href="./css/add-student-modal.css">
     <link rel="stylesheet" href="./css/delete-confirm-modal.css">
+    <link rel="stylesheet" href="./css/custom-alert.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -142,7 +143,24 @@
             </div>
         </div>
     </div>
-
+     <!-- Custom Alert Modal -->
+    <div id="customAlertOverlay" class="custom-alert-overlay">
+        <div id="customAlertContainer" class="custom-alert-container">
+            <div class="custom-alert-header">
+                <div id="customAlertIcon" class="custom-alert-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <h2 id="customAlertTitle" class="custom-alert-title">Alert</h2>
+            </div>
+            <div class="custom-alert-content">
+                <p id="customAlertMessage" class="custom-alert-message"></p>
+            </div>
+            <div class="custom-alert-actions">
+                <button type="button" class="custom-alert-btn custom-alert-btn-ok" id="customAlertOk">OK</button>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="./js/custom-alert.js"></script>
 <script src="./staff_work_logic/staff_manage_student.js"></script>
 </html>
