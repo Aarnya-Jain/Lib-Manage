@@ -46,7 +46,7 @@ const upload2 = multer({ storage: storage2 }); // staff
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "Your Password comes here",
+  password: "Aarnya123",
   database: "testdb",
   waitForConnections: true,
   connectionLimit: 10,
@@ -97,9 +97,6 @@ app.get("/books/search", async (req, res) => {
         res.status(500).json({ error: "Database error" });
     }
 });
-
-// route to search in issue register_staff
-
 
 // route to search student by column
 app.get("/student/search", async (req, res) => {
@@ -421,7 +418,7 @@ app.post("/add/staff", upload2.single("image"), async (req, res) => {
       return res.json({ message: "Staff registered successfully" });
 
     if (result === 2)
-      return res.status(400).json({ message: "Staff already exists" });
+      return res.status(400).json({ message: "Staff with this Staff ID already exists" });
 
     res.status(400).json({ message: "Unknown error" });
 
@@ -470,7 +467,7 @@ app.post("/add/book", async (req, res) => {
       return res.json({ message: "New book added successfully" });
 
     if (result === 2)
-      return res.json({ message: "Book exists — quantity updated successfully" });
+      return res.json({ message: "Book with isbn exists — quantity updated successfully" });
 
     return res.status(400).json({ message: "Unknown error" });
 
@@ -504,6 +501,11 @@ app.delete("/delete/student", async (req, res) => {
 
     if (result === 2)
       return res.status(404).json({ message: "Student not found" });
+
+    if (result === 3)
+      return res.status(400).json({
+        message: "Cannot delete this student because they are linked to issue history"
+      });
 
     res.status(400).json({ message: "Unknown error" });
 

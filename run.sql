@@ -102,6 +102,7 @@ CREATE PROCEDURE issue_book(
     IN staff_username INT,
     IN p_isbn VARCHAR(13)
 )
+
 proc: BEGIN
     DECLARE student_exists INT DEFAULT 0;
     DECLARE staff_exists INT DEFAULT 0;
@@ -254,6 +255,7 @@ CREATE FUNCTION add_book(
     shelf INT,
     qty INT
 )
+
 RETURNS INT
 DETERMINISTIC
 BEGIN
@@ -284,9 +286,13 @@ RETURNS INT
 DETERMINISTIC
 BEGIN
     DECLARE exists_count INT DEFAULT 0;
+    DECLARE used INT DEFAULT 0;
 
     SELECT COUNT(*) INTO exists_count FROM student WHERE enrollment_no = p_enroll;
     IF exists_count = 0 THEN RETURN 2; END IF;
+
+    SELECT COUNT(*) INTO used FROM issue_register WHERE enrollment_no = p_enroll;
+    IF used > 0 THEN RETURN 3; END IF;
 
     DELETE FROM student WHERE enrollment_no = p_enroll;
 

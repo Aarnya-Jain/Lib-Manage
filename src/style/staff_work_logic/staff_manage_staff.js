@@ -213,7 +213,9 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
 
         if (res.ok) {
             showSuccessAlert(data.message);
+            await delay();
             form.reset();
+            location.reload();
         } else {
             showErrorAlert(data.message || data.error || "Error");
         }
@@ -237,7 +239,14 @@ document.querySelector(".btn-delete-confirm").addEventListener("click", async (e
     });
 
     const data = await res.json();
-    showSuccessAlert(data.message);
 
-    if (res.ok) location.reload();
+    if (res.ok) {
+            showSuccessAlert(data.message);
+            await delay();
+            location.reload();
+    } else {
+            showErrorAlert(data.message || data.error || "Error");
+            await delay();
+            location.reload();
+    }
 });

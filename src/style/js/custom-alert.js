@@ -1,4 +1,11 @@
 /**
+ * Delay function
+ */
+function delay() {
+    return new Promise(resolve => setTimeout(resolve, 1 * 1000));
+}
+
+/**
  * Custom Alert Function
  * Displays a themed alert popup matching the neobrutalism pastel theme
  *

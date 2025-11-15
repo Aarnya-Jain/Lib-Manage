@@ -49,10 +49,10 @@ return_submit_button.addEventListener('click', async (event) => {
     console.log(data);
 
     if (res.ok) {
+        showSuccessAlert(data.message);
+        await delay();
         form.reset();
         location.reload();
-        // window.location.href = "/return_successfull.html";
-        showSuccessAlert(data.message);
     } else {
         showErrorAlert(data.error || data.message || "Unknown error");
     }
